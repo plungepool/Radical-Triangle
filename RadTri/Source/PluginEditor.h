@@ -14,7 +14,8 @@
 //==============================================================================
 /**
 */
-class RadTriAudioProcessorEditor  : public juce::AudioProcessorEditor
+class RadTriAudioProcessorEditor :  public juce::AudioProcessorEditor,
+                                    public juce::Slider::Listener //add listener to sliders
 {
 public:
     RadTriAudioProcessorEditor (RadTriAudioProcessor&);
@@ -24,7 +25,13 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
+    void sliderValueChanged(juce::Slider* slider) override;
+
 private:
+    const juce::ColourGradient bgGradient = juce::ColourGradient(juce::Colours::purple, 1, 300, juce::Colours::orange, 300, 1, true);
+
+    juce::Slider oscPhase;
+
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     RadTriAudioProcessor& audioProcessor;
