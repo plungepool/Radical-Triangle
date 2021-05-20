@@ -22,7 +22,7 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (400, 400);
 }
 
 RadTriAudioProcessorEditor::~RadTriAudioProcessorEditor()
@@ -41,7 +41,9 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Phase Offset", getLocalBounds(), juce::Justification::left, 1);
+    g.setOrigin(10, 100);
+    g.drawFittedText ("Phase Offset", 0, 0, 80, 20, juce::Justification::verticallyCentred, 1);
+
 }
 
 void RadTriAudioProcessorEditor::resized()
