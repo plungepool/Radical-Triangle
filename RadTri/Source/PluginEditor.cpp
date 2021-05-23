@@ -22,7 +22,7 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 400);
+    setSize(400, 400);
 }
 
 RadTriAudioProcessorEditor::~RadTriAudioProcessorEditor()
@@ -30,6 +30,7 @@ RadTriAudioProcessorEditor::~RadTriAudioProcessorEditor()
 }
 
 //==============================================================================
+
 void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
@@ -41,9 +42,21 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.setOrigin(10, 100);
-    g.drawFittedText ("Phase Offset", 0, 0, 80, 20, juce::Justification::verticallyCentred, 1);
+    //g.setOrigin(10, 100);
+    g.drawFittedText ("Phase Offset", 10, 100, 80, 20, juce::Justification::verticallyCentred, 1);
 
+    //Paint just constantly redraws line so should be able to make
+    //em variable and sort of animate them?
+    g.setColour(juce::Colours::white);
+    juce::Line<float> line1 (juce::Point<float>((getWidth() / 2), (getHeight() / 3)),
+                            juce::Point<float>((getWidth() / 4), (getHeight() / 3) * 2));
+    g.drawLine(line1, 8.0f);
+    juce::Line<float> line2 (juce::Point<float>((getWidth() / 4), (getHeight() / 3) * 2),
+                            juce::Point<float>((getWidth() / 4) * 3, (getHeight() / 3) * 2));
+    g.drawLine(line2, 8.0f);
+    juce::Line<float> line3 (juce::Point<float>((getWidth() / 4) * 3, (getHeight() / 3) * 2),
+                            juce::Point<float>((getWidth() / 2), (getHeight() / 3)));
+    g.drawLine(line3, 8.0f);
 }
 
 void RadTriAudioProcessorEditor::resized()

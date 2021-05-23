@@ -22,10 +22,12 @@ RadTriAudioProcessor::RadTriAudioProcessor()
                        )
 #endif
 {
+    //Processor constructor
 }
 
 RadTriAudioProcessor::~RadTriAudioProcessor()
 {
+    //Processor destructor
 }
 
 //==============================================================================
@@ -95,6 +97,7 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    // Calls anytime the user presses play
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -131,6 +134,8 @@ bool RadTriAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) c
 
 void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+    //Where audio is processed
+
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -153,10 +158,7 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-
         // ..do something to the data...
-
-
 
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
             //channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain();
@@ -178,6 +180,8 @@ juce::AudioProcessorEditor* RadTriAudioProcessor::createEditor()
 //==============================================================================
 void RadTriAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
+    //Loads state information on plugin/project open
+
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
@@ -185,6 +189,8 @@ void RadTriAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 
 void RadTriAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
+    //Saves state information on plugin/project close
+
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
 }
