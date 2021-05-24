@@ -27,6 +27,8 @@ public:
 
     void sliderValueChanged(juce::Slider* slider) override;
 
+    const float pi = juce::MathConstants<float>::pi;
+
 private:
     const juce::ColourGradient bgGradient = juce::ColourGradient(juce::Colours::purple, 1, 300, juce::Colours::orange, 300, 1, true);
 
