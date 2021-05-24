@@ -30,9 +30,21 @@ public:
     const float pi = juce::MathConstants<float>::pi;
 
 private:
+    int windowWidth = 400;
+    int windowHeight = 400;
+
     const juce::ColourGradient bgGradient = juce::ColourGradient(juce::Colours::purple, 1, 300, juce::Colours::orange, 300, 1, true);
 
     juce::Slider oscPhase;
+
+    unsigned char cRTri = 255;
+    unsigned char cGTri = 255;
+    unsigned char cBTri = 255;
+    float transpTri = 1.0f;
+    juce::Colour triColor = juce::Colour::Colour(cRTri, cGTri, cBTri, transpTri);
+
+    float tWidthL = (oscPhase.getValue()) / 2;
+    float tWidthR = (oscPhase.getValue()) / -2;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
