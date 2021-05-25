@@ -12,14 +12,14 @@
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor (BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput  ("Input",  juce::AudioChannelSet::stereo(), true)
-                      #endif
-                       .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
-                     #endif
-                       )
+    : AudioProcessor(BusesProperties()
+#if ! JucePlugin_IsMidiEffect
+#if ! JucePlugin_IsSynth
+        .withInput("Input", juce::AudioChannelSet::stereo(), true)
+#endif
+        .withOutput("Output", juce::AudioChannelSet::stereo(), true)
+#endif
+    ), apvts(*this, nullptr, "Parameters", createParameters())
 #endif
 {
     //Processor constructor
@@ -200,4 +200,13 @@ void RadTriAudioProcessor::setStateInformation (const void* data, int sizeInByte
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new RadTriAudioProcessor();
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::createParameters() {
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+
+    params.push_back(std::make_unique<juce::AudioParameterInt>("PHASE_OFFSET", "Phase Offset", -180.0, 180.0, 0.0));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.5));
+
+    return { params.begin(), params.end() };
 }

@@ -36,7 +36,11 @@ private:
     const juce::ColourGradient bgGradient = juce::ColourGradient(juce::Colours::purple, 1, 300, juce::Colours::orange, 300, 1, true);
 
     juce::Slider oscPhase;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> oscPhaseAttachment;
+    juce::Slider gainSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainSliderAttachment;
 
+    // Graphics
     unsigned char cRTri = 255;
     unsigned char cGTri = 255;
     unsigned char cBTri = 255;

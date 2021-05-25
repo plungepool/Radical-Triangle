@@ -15,10 +15,15 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
 {
     oscPhase.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     oscPhase.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    oscPhase.setRange(-180.0, 180.0, 1.0);
-    oscPhase.setValue(0.0);
-    oscPhase.addListener(this);
     addAndMakeVisible(oscPhase);
+    oscPhaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "PHASE_OFFSET", oscPhase);
+    oscPhase.addListener(this);
+
+    gainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(gainSlider);
+    gainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "GAIN", gainSlider);
+    gainSlider.addListener(this);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -48,10 +53,10 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
         transpTri = 1.0f;
     }
     else if (oscPhase.getValue() < 0) {
-        transpTri = (-1 / oscPhase.getValue()) * 50;
+        transpTri = (-1 / oscPhase.getValue()) * 35;
     }
     else {
-        transpTri = (1 / oscPhase.getValue()) * 50;
+        transpTri = (1 / oscPhase.getValue()) * 35;
     }
     triColor = juce::Colour::Colour(cRTri, cGTri, cBTri, transpTri);
     g.setColour(triColor);
@@ -117,14 +122,10 @@ void RadTriAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-
     oscPhase.setBounds(0, 0, 100, 100);
+    gainSlider.setBounds(getWidth() - 100, 0, 100, 100);
 }
 
 void RadTriAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
     repaint(0, 0, windowWidth, windowHeight);
-
-    if (slider == &oscPhase) {
-        audioProcessor.phaseValue = oscPhase.getValue();
-    }
 }

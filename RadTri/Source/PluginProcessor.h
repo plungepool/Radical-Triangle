@@ -55,7 +55,11 @@ public:
 
     double phaseValue = 0.0;
 
+    juce::AudioProcessorValueTreeState apvts;
+
 private:
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadTriAudioProcessor)
 };
