@@ -1,3 +1,3 @@
 # Radical-Triangle
-## Wavetable Synthesizer VST
+### Wavetable Synthesizer VST
 Work in progress.

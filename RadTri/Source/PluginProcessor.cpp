@@ -15,7 +15,7 @@ RadTriAudioProcessor::RadTriAudioProcessor()
     : AudioProcessor(BusesProperties()
 #if ! JucePlugin_IsMidiEffect
 #if ! JucePlugin_IsSynth
-        .withInput("Input", juce::AudioChannelSet::stereo(), true)
+        .withInput("Input", juce::AudioChannelSet::stereo(), false)
 #endif
         .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
@@ -98,6 +98,17 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
     // Calls anytime the user presses play
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.sampleRate = sampleRate;
+    spec.numChannels = getTotalNumOutputChannels();
+
+    oscWave.prepare(spec);
+
+    gain.prepare(spec);
+    gain.setGainLinear(0.01f);
+
+    oscWave.setFrequency(220.0f);
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -148,6 +159,13 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+
+    //Oscillator
+    juce::dsp::AudioBlock<float> audioBlock{ buffer };
+    oscWave.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
+
+    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    //contextreplacing lets you replace previous process block after it's finished
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
