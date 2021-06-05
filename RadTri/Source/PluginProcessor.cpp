@@ -103,12 +103,14 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
     spec.sampleRate = sampleRate;
     spec.numChannels = getTotalNumOutputChannels();
 
-    oscWave.prepare(spec);
+    oscWaveL.prepare(spec);
+    oscWaveR.prepare(spec);
 
     gain.prepare(spec);
     gain.setGainLinear(0.01f);
 
-    oscWave.setFrequency(220.0f);
+    oscWaveL.setFrequency(220.0f);
+    oscWaveR.setFrequency(110.0f);
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -162,7 +164,8 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
     //Oscillator
     juce::dsp::AudioBlock<float> audioBlock{ buffer };
-    oscWave.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
+    oscWaveL.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
+    oscWaveR.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     //contextreplacing lets you replace previous process block after it's finished

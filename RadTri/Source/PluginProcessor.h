@@ -61,7 +61,8 @@ public:
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 
-    juce::dsp::Oscillator<float> oscWave{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 }; //
+    juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
+    juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
     juce::dsp::Gain<float> gain;
 
     //==============================================================================
