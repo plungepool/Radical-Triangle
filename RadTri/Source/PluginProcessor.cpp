@@ -101,22 +101,13 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
     // initialisation that you need..
     // Calls anytime the user presses play
 
-    ////Old Oscillator
-    //juce::dsp::ProcessSpec spec;
-    //spec.maximumBlockSize = samplesPerBlock;
-    //spec.sampleRate = sampleRate;
-    //spec.numChannels = getTotalNumOutputChannels();
-
-    //oscWaveL.prepare(spec);
-    //oscWaveR.prepare(spec);
-
-    //gain.prepare(spec);
-    //gain.setGainLinear(0.01f);
-
-    //oscWaveL.setFrequency(220.0f);
-    //oscWaveR.setFrequency(110.0f);
-
     synth.setCurrentPlaybackSampleRate(sampleRate);
+    
+    for (int i = 0; i < synth.getNumVoices(); ++i) {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
+            voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+        }
+    }
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -162,14 +153,6 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    ////Old Oscillator
-    //juce::dsp::AudioBlock<float> audioBlock{ buffer };
-    //oscWaveL.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
-    //oscWaveR.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
-
-    //gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
-    ////contextreplacing lets you replace previous process block after it's finished
-
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         //check for changes in ADSR
         if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
@@ -181,15 +164,15 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-        // ..do something to the data...
+    //for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    //{
+    //    auto* channelData = buffer.getWritePointer (channel);
+    //    // ..do something to the data...
 
-        for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-            //channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain();
-        }
-    }
+    //    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+    //        //channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain();
+    //    }
+    //}
 }
 
 //==============================================================================
