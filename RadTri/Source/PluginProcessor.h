@@ -9,6 +9,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "SynthVoice.h"
+#include "SynthSound.h"
 
 //==============================================================================
 /**
@@ -56,14 +58,15 @@ public:
     //==============================================================================
     juce::AudioProcessorValueTreeState apvts;
 
-    double phaseValue = 0.0;
-
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 
-    juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
-    juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
-    juce::dsp::Gain<float> gain;
+    ////Old Oscillator
+    //juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
+    //juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
+    //juce::dsp::Gain<float> gain;
+
+    juce::Synthesiser synth;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadTriAudioProcessor)
