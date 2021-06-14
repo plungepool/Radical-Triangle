@@ -37,8 +37,20 @@ private:
 
     juce::Slider oscPhase;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> oscPhaseAttachment;
-    juce::Slider gainSlider;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> gainSliderAttachment;
+    juce::Slider satSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> satSliderAttachment;
+
+    juce::Slider atkSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> atkSliderAttachment;
+    juce::Slider dcySlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> dcySliderAttachment;
+    juce::Slider susSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> susSliderAttachment;
+    juce::Slider relSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> relSliderAttachment;
+
+    //juce::ComboBox shapeSelect;
+    //std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> shapeSelectAttachment;
 
     // Graphics
     unsigned char cRTri = 255;

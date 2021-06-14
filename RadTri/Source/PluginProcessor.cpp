@@ -214,8 +214,17 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::createParameters() {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    params.push_back(std::make_unique<juce::AudioParameterInt>("PHASE_OFFSET", "Phase Offset", -180.0, 180.0, 0.0));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("GAIN", "Gain", 0.0f, 1.0f, 0.5));
+    params.push_back(std::make_unique<juce::AudioParameterInt>("WIDENER", "Widener", -180.0, 180.0, 0.0));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SATURATION", "Saturation", 0.0f, 1.0f, 0.0));
+
+    //Combobox: a gui switch example
+    //params.push_back(std::make_unique<juce::AudioParameterChoice>("SHAPE", "Shape", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
+
+    //ADSR
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "A", 0.1f, 1.0f, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "D", 0.1f, 1.0f, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "S", 0.1f, 1.0f, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "R", 0.1f, 3.0f, 0.4f));
 
     return { params.begin(), params.end() };
 }

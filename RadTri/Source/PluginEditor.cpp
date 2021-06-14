@@ -16,14 +16,40 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
     oscPhase.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     oscPhase.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
     addAndMakeVisible(oscPhase);
-    oscPhaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "PHASE_OFFSET", oscPhase);
+    oscPhaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "WIDENER", oscPhase);
     oscPhase.addListener(this);
 
-    gainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    gainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    addAndMakeVisible(gainSlider);
-    gainSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "GAIN", gainSlider);
-    gainSlider.addListener(this);
+    satSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    satSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(satSlider);
+    satSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SATURATION", satSlider);
+    satSlider.addListener(this);
+
+    atkSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    atkSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(atkSlider);
+    atkSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "ATTACK", atkSlider);
+    //atkSlider.addListener(this);
+
+    dcySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    dcySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(dcySlider);
+    dcySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", dcySlider);
+    //atkSlider.addListener(this);
+
+    susSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    susSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(susSlider);
+    susSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", susSlider);
+    //atkSlider.addListener(this);
+
+    relSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    relSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    addAndMakeVisible(relSlider);
+    relSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", relSlider);
+    //atkSlider.addListener(this);
+
+    //addAndMakeVisible(shapeSelect);
 
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -46,7 +72,7 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
     //g.setOrigin(10, 100);
-    g.drawFittedText ("Phase Offset", 10, 100, 80, 20, juce::Justification::verticallyCentred, 1);
+    g.drawFittedText ("Widener", 10, 100, 80, 20, juce::Justification::verticallyCentred, 1);
 
     // Triangle Color/Opacity
     if (oscPhase.getValue() == 0) {
@@ -123,7 +149,14 @@ void RadTriAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
     oscPhase.setBounds(0, 0, 100, 100);
-    gainSlider.setBounds(getWidth() - 100, 0, 100, 100);
+    satSlider.setBounds(getWidth() - 100, 0, 100, 100);
+
+    atkSlider.setBounds((getWidth() / 10) * 1, getHeight() - 75, 75, 75);
+    dcySlider.setBounds((getWidth() / 10) * 3, getHeight() - 75, 75, 75);
+    susSlider.setBounds((getWidth() / 10) * 5, getHeight() - 75, 75, 75);
+    relSlider.setBounds((getWidth() / 10) * 7, getHeight() - 75, 75, 75);
+
+    //shapeSelect.setBounds(getWidth() / 2, getHeight() - 100, 100, 100);
 }
 
 void RadTriAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
