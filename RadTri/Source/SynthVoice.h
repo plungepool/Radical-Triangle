@@ -13,6 +13,8 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 
+#include <math.h>
+
 class SynthVoice : public juce::SynthesiserVoice {
 public:
     bool canPlaySound(juce::SynthesiserSound* sound) override;
@@ -26,9 +28,10 @@ public:
 private:
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
+    juce::AudioBuffer<float> synthBuffer;
 
-    juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
-    juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return x / juce::MathConstants<float>::pi; }, 200 };
+    juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
+    juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
     juce::dsp::Gain<float> gain;
 
     bool isPrepared{ false };
