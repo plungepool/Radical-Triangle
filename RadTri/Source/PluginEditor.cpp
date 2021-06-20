@@ -35,19 +35,19 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
     dcySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
     addAndMakeVisible(dcySlider);
     dcySliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "DECAY", dcySlider);
-    //atkSlider.addListener(this);
+    //dcySlider.addListener(this);
 
     susSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     susSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
     addAndMakeVisible(susSlider);
     susSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "SUSTAIN", susSlider);
-    //atkSlider.addListener(this);
+    //susSlider.addListener(this);
 
     relSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     relSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
     addAndMakeVisible(relSlider);
     relSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", relSlider);
-    //atkSlider.addListener(this);
+    //relSlider.addListener(this);
 
     //addAndMakeVisible(shapeSelect);
 

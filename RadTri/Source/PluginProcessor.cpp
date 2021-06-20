@@ -156,24 +156,20 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         //check for changes in ADSR
-        if (auto voice = dynamic_cast<juce::SynthesiserVoice*>(synth.getVoice(i))) {
+        if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
+            auto& attack = *apvts.getRawParameterValue("ATTACK");
+            auto& decay = *apvts.getRawParameterValue("DECAY");
+            auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
+            auto& release = *apvts.getRawParameterValue("RELEASE");
+
+            voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
+            
             //Osc Controls
             //ADSR
             //lfo, etc
         }
     }
-
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-
-    //for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    //{
-    //    auto* channelData = buffer.getWritePointer (channel);
-    //    // ..do something to the data...
-
-    //    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-    //        //channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain();
-    //    }
-    //}
 }
 
 //==============================================================================
