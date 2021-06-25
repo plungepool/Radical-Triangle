@@ -15,6 +15,9 @@
 //==============================================================================
 /**
 */
+class dsp;
+class MapUI;
+
 class RadTriAudioProcessor : public juce::AudioProcessor
 {
 public:
@@ -58,10 +61,20 @@ public:
     //==============================================================================
     juce::AudioProcessorValueTreeState apvts;
 
+    //==============================================================================
+    //Faust
+    static void fGateOn();
+    static void fGateOff();
+
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 
     juce::Synthesiser synth;
+
+    MapUI* fUI;
+    dsp* fDSP;
+    float** inputs;
+    float** outputs;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadTriAudioProcessor)

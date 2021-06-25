@@ -591,15 +591,6 @@ class dsp_factory {
 
 // BEGIN-FAUSTDSP
 
-/* ------------------------------------------------------------
-name: "exp_envelope"
-Code generated with Faust 2.32.13 (https://faust.grame.fr)
-Compilation options: -lang cpp -es 1 -single -ftz 0
------------------------------------------------------------- */
-
-#ifndef  __mydsp_H__
-#define  __mydsp_H__
-
 #ifndef FAUSTFLOAT
 #define FAUSTFLOAT float
 #endif 
@@ -741,12 +732,12 @@ class mydsp : public dsp {
 	
 	virtual void buildUserInterface(UI* ui_interface) {
 		ui_interface->openVerticalBox("exp_envelope");
-		ui_interface->addHorizontalSlider("attack", &fHslider1, 0.100000001f, 0.00999999978f, 1.0f, 0.00100000005f);
-		ui_interface->addHorizontalSlider("decay", &fHslider2, 0.300000012f, 0.00999999978f, 1.0f, 0.00100000005f);
-		ui_interface->addNumEntry("gain", &fEntry0, 1.0f, 0.0f, 1.0f, 0.00999999978f);
+		ui_interface->addHorizontalSlider("attack", &fHslider1, 0.100000001f, 0.00100000005f, 10.0f, 0.00100000005f);
+		ui_interface->addHorizontalSlider("decay", &fHslider2, 0.300000012f, 0.00100000005f, 10.0f, 0.00100000005f);
+		ui_interface->addNumEntry("gain", &fEntry0, 1.0f, 0.0f, 1.0f, 0.00100000005f);
 		ui_interface->addButton("gate", &fButton0);
-		ui_interface->addHorizontalSlider("release", &fHslider0, 0.5f, 0.00999999978f, 1.0f, 0.00100000005f);
-		ui_interface->addHorizontalSlider("sustain", &fHslider3, 0.200000003f, 0.00999999978f, 1.0f, 0.00100000005f);
+		ui_interface->addHorizontalSlider("release", &fHslider0, 0.5f, 0.00100000005f, 10.0f, 0.00100000005f);
+		ui_interface->addHorizontalSlider("sustain", &fHslider3, 0.200000003f, 0.00100000005f, 10.0f, 0.00100000005f);
 		ui_interface->closeBox();
 	}
 	
@@ -760,7 +751,7 @@ class mydsp : public dsp {
 		float fSlow4 = (fConst1 * float(fHslider2));
 		float fSlow5 = float(iSlow1);
 		float fSlow6 = (fConst1 * float(fHslider3));
-		for (int i = 0; (i < count); i = (i + 1)) {
+		for (int i0 = 0; (i0 < count); i0 = (i0 + 1)) {
 			fRec0[0] = (fSlow0 + (fConst2 * fRec0[1]));
 			iVec0[0] = iSlow1;
 			fRec2[0] = (fSlow2 + (fConst2 * fRec2[1]));
@@ -774,7 +765,7 @@ class mydsp : public dsp {
 			float fTemp4 = (iTemp3 ? 0.0f : std::exp((0.0f - (fConst3 / (iTemp3 ? 1.0f : fTemp2)))));
 			fRec6[0] = (fSlow6 + (fConst2 * fRec6[1]));
 			fRec1[0] = ((fRec1[1] * fTemp4) + ((iSlow1 ? (iTemp1 ? fSlow5 : (fSlow5 * fRec6[0])) : 0.0f) * (1.0f - fTemp4)));
-			output0[i] = FAUSTFLOAT(((float(input0[i]) * fRec0[0]) * fRec1[0]));
+			output0[i0] = FAUSTFLOAT(((float(input0[i0]) * fRec0[0]) * fRec1[0]));
 			fRec0[1] = fRec0[0];
 			iVec0[1] = iVec0[0];
 			fRec2[1] = fRec2[0];
@@ -787,8 +778,6 @@ class mydsp : public dsp {
 	}
 
 };
-
-#endif
 
 // END-FAUSTDSP
 

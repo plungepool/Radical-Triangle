@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "FaustEnvelope.h"
 
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
@@ -24,7 +25,6 @@ RadTriAudioProcessor::RadTriAudioProcessor()
 {
     synth.addSound(new SynthSound());
     synth.addVoice(new SynthVoice());
-
 }
 
 RadTriAudioProcessor::~RadTriAudioProcessor()
@@ -108,12 +108,32 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
             voice->prepareToPlay(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
         }
     }
+
+    fDSP = new mydsp();
+    fDSP->init(sampleRate);
+    fUI = new MapUI();
+    fDSP->buildUserInterface(fUI);
+    inputs = new float* [2];
+    outputs = new float* [2];
+    for (int channel = 0; channel < 2; ++channel) {
+        inputs[channel] = new float[samplesPerBlock];
+        outputs[channel] = new float[samplesPerBlock];
+    }
 }
 
 void RadTriAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
+
+    delete fDSP;
+    delete fUI;
+    for (int channel = 0; channel < 2; ++channel) {
+        delete[] inputs[channel];
+        delete[] outputs[channel];
+    }
+    delete[] inputs;
+    delete[] outputs;
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -157,19 +177,35 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         //check for changes in ADSR
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
-            auto& attack = *apvts.getRawParameterValue("ATTACK");
-            auto& decay = *apvts.getRawParameterValue("DECAY");
-            auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
-            auto& release = *apvts.getRawParameterValue("RELEASE");
+            //JUCE ADSR
+            //auto& attack = *apvts.getRawParameterValue("ATTACK");
+            //auto& decay = *apvts.getRawParameterValue("DECAY");
+            //auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
+            //auto& release = *apvts.getRawParameterValue("RELEASE");
 
-            voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
-            
+            //voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
+
             //Osc Controls
-            //ADSR
             //lfo, etc
         }
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    //FAUST ADSR
+    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+        for (int i = 0; i < buffer.getNumSamples(); i++) {
+            inputs[channel][i] = *buffer.getWritePointer(channel, i);
+        }
+    }
+
+    fDSP->compute(buffer.getNumSamples(), inputs, outputs);
+    
+    //need the gate to turn on with MIDI!!!
+    //for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
+    //    for (int i = 0; i < buffer.getNumSamples(); i++) {
+    //        *buffer.getWritePointer(channel, i) = outputs[channel][i];
+    //    }
+    //}
 }
 
 //==============================================================================
@@ -226,4 +262,14 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
     return { params.begin(), params.end() };
 }
 
-//Value Tree
+//=============================================================================
+//Faust
+void RadTriAudioProcessor::fGateOn()
+{
+    //fUI->setParamValue("gate", 1);
+}
+
+void RadTriAudioProcessor::fGateOff()
+{
+    //fUI->setParamValue("gate", 0);
+}
