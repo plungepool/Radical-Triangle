@@ -8,7 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "FaustEnvelope.h"
+#include "FaustReverb.h"
 
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
@@ -178,12 +178,12 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
         //check for changes in ADSR
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
             //JUCE ADSR
-            //auto& attack = *apvts.getRawParameterValue("ATTACK");
-            //auto& decay = *apvts.getRawParameterValue("DECAY");
-            //auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
-            //auto& release = *apvts.getRawParameterValue("RELEASE");
+            auto& attack = *apvts.getRawParameterValue("ATTACK");
+            auto& decay = *apvts.getRawParameterValue("DECAY");
+            auto& sustain = *apvts.getRawParameterValue("SUSTAIN");
+            auto& release = *apvts.getRawParameterValue("RELEASE");
 
-            //voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
+            voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
 
             //Osc Controls
             //lfo, etc
@@ -250,9 +250,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterInt>("WIDENER", "Widener", -180.0, 180.0, 0.0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SATURATION", "Saturation", 0.0f, 1.0f, 0.0));
 
-    //Combobox: a gui switch example
-    //params.push_back(std::make_unique<juce::AudioParameterChoice>("SHAPE", "Shape", juce::StringArray{ "Sine", "Saw", "Square" }, 0));
-
     //ADSR
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "A", 0.1f, 1.0f, 0.1f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "D", 0.1f, 1.0f, 0.1f));
@@ -264,12 +261,22 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
 
 //=============================================================================
 //Faust
+void RadTriAudioProcessor::setGate(bool gate)
+{
+    if (gate) {
+        fUI->setParamValue("gate", 1);
+    }
+    else {
+        fUI->setParamValue("gate", 0);
+    }
+}
+
 void RadTriAudioProcessor::fGateOn()
 {
-    //fUI->setParamValue("gate", 1);
+    fUI->setParamValue("gate", 1);
 }
 
 void RadTriAudioProcessor::fGateOff()
 {
-    //fUI->setParamValue("gate", 0);
+    fUI->setParamValue("gate", 0);
 }

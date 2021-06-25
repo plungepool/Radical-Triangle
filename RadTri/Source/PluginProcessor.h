@@ -63,8 +63,9 @@ public:
 
     //==============================================================================
     //Faust
-    static void fGateOn();
-    static void fGateOff();
+    void setGate(bool gate);
+    void fGateOn();
+    void fGateOff();
 
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();

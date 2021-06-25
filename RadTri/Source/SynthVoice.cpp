@@ -9,8 +9,7 @@
 */
 
 #include "SynthVoice.h"
-#include "PluginProcessor.h"
-//#include "FaustEnvelope.h"
+//#include "PluginProcessor.h"
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) 
 {
@@ -22,13 +21,15 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     oscWaveL.setFrequency(juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber));
     oscWaveR.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber - 24));
     adsr.noteOn();
-    RadTriAudioProcessor::fGateOn();
+    //RadTriAudioProcessor::fGateOn();
+    //RadTriAudioProcessor::setGate(true);
 }
 
 void SynthVoice::stopNote(float velocity, bool allowTailOff) 
 {
     adsr.noteOff();
-    RadTriAudioProcessor::fGateOff();
+    //RadTriAudioProcessor::fGateOff();
+    //RadTriAudioProcessor::setGate(false);
 
     if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
@@ -89,7 +90,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     //contextreplacing lets you replace previous process block after it's finished
 
-    //adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
+    adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
 
     for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
         outputBuffer.addFrom(channel, startSample, synthBuffer, channel, 0, numSamples);

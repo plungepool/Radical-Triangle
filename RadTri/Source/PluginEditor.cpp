@@ -49,8 +49,6 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
     relSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", relSlider);
     //relSlider.addListener(this);
 
-    //addAndMakeVisible(shapeSelect);
-
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize(windowWidth, windowHeight);
@@ -155,8 +153,6 @@ void RadTriAudioProcessorEditor::resized()
     dcySlider.setBounds((getWidth() / 10) * 3, getHeight() - 75, 75, 75);
     susSlider.setBounds((getWidth() / 10) * 5, getHeight() - 75, 75, 75);
     relSlider.setBounds((getWidth() / 10) * 7, getHeight() - 75, 75, 75);
-
-    //shapeSelect.setBounds(getWidth() / 2, getHeight() - 100, 100, 100);
 }
 
 void RadTriAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {

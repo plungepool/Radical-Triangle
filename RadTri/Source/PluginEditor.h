@@ -49,9 +49,6 @@ private:
     juce::Slider relSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> relSliderAttachment;
 
-    //juce::ComboBox shapeSelect;
-    //std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> shapeSelectAttachment;
-
     // Graphics
     unsigned char cRTri = 255;
     unsigned char cGTri = 255;
