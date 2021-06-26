@@ -8,7 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "FaustReverb.h"
+//#include "FaustReverb.h"
 
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
@@ -109,16 +109,16 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
         }
     }
 
-    fDSP = new mydsp();
-    fDSP->init(sampleRate);
-    fUI = new MapUI();
-    fDSP->buildUserInterface(fUI);
-    inputs = new float* [2];
-    outputs = new float* [2];
-    for (int channel = 0; channel < 2; ++channel) {
-        inputs[channel] = new float[samplesPerBlock];
-        outputs[channel] = new float[samplesPerBlock];
-    }
+    //fDSP = new mydsp();
+    //fDSP->init(sampleRate);
+    //fUI = new MapUI();
+    //fDSP->buildUserInterface(fUI);
+    //inputs = new float* [2];
+    //outputs = new float* [2];
+    //for (int channel = 0; channel < 2; ++channel) {
+    //    inputs[channel] = new float[samplesPerBlock];
+    //    outputs[channel] = new float[samplesPerBlock];
+    //}
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -126,14 +126,14 @@ void RadTriAudioProcessor::releaseResources()
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 
-    delete fDSP;
-    delete fUI;
-    for (int channel = 0; channel < 2; ++channel) {
-        delete[] inputs[channel];
-        delete[] outputs[channel];
-    }
-    delete[] inputs;
-    delete[] outputs;
+    //delete fDSP;
+    //delete fUI;
+    //for (int channel = 0; channel < 2; ++channel) {
+    //    delete[] inputs[channel];
+    //    delete[] outputs[channel];
+    //}
+    //delete[] inputs;
+    //delete[] outputs;
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -192,13 +192,13 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
     //FAUST ADSR
-    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-        for (int i = 0; i < buffer.getNumSamples(); i++) {
-            inputs[channel][i] = *buffer.getWritePointer(channel, i);
-        }
-    }
+    //for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+    //    for (int i = 0; i < buffer.getNumSamples(); i++) {
+    //        inputs[channel][i] = *buffer.getWritePointer(channel, i);
+    //    }
+    //}
 
-    fDSP->compute(buffer.getNumSamples(), inputs, outputs);
+    //fDSP->compute(buffer.getNumSamples(), inputs, outputs);
     
     //need the gate to turn on with MIDI!!!
     //for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
@@ -261,22 +261,22 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
 
 //=============================================================================
 //Faust
-void RadTriAudioProcessor::setGate(bool gate)
-{
-    if (gate) {
-        fUI->setParamValue("gate", 1);
-    }
-    else {
-        fUI->setParamValue("gate", 0);
-    }
-}
-
-void RadTriAudioProcessor::fGateOn()
-{
-    fUI->setParamValue("gate", 1);
-}
-
-void RadTriAudioProcessor::fGateOff()
-{
-    fUI->setParamValue("gate", 0);
-}
+//void RadTriAudioProcessor::setGate(bool gate)
+//{
+//    if (gate) {
+//        fUI->setParamValue("gate", 1);
+//    }
+//    else {
+//        fUI->setParamValue("gate", 0);
+//    }
+//}
+//
+//void RadTriAudioProcessor::fGateOn()
+//{
+//    fUI->setParamValue("gate", 1);
+//}
+//
+//void RadTriAudioProcessor::fGateOff()
+//{
+//    fUI->setParamValue("gate", 0);
+//}

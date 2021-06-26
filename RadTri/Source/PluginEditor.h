@@ -50,14 +50,24 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> relSliderAttachment;
 
     // Graphics
-    unsigned char cRTri = 255;
-    unsigned char cGTri = 255;
-    unsigned char cBTri = 255;
+    unsigned char cRTriL = 248;
+    unsigned char cGTriL = 248;
+    unsigned char cBTriL = 255;
+    unsigned char cRTriR = 255;
+    unsigned char cGTriR = 248;
+    unsigned char cBTriR = 248;
     float transpTri = 1.0f;
-    juce::Colour triColor = juce::Colour::Colour(cRTri, cGTri, cBTri, transpTri);
+    juce::Colour triColor = juce::Colour::Colour(cRTriL, cGTriL, cBTriL, transpTri);
 
     float tWidthL = (oscPhase.getValue()) / 2;
     float tWidthR = (oscPhase.getValue()) / -2;
+
+    float tSatLX = (satSlider.getValue()) * -4;
+    float tSatLY = (satSlider.getValue()) * -10;
+    float tSatRX = (satSlider.getValue()) * -4;
+    float tSatRY = (satSlider.getValue()) * -10;
+    float sSatL = (satSlider.getValue()) / 2;
+    float sSatR = (satSlider.getValue()) / 2;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
