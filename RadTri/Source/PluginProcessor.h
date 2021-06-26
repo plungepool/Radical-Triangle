@@ -62,6 +62,7 @@ public:
     juce::AudioProcessorValueTreeState apvts;
 
     //==============================================================================
+
     //Faust
     //void setGate(bool gate);
     //void fGateOn();

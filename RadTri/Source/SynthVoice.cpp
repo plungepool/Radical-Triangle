@@ -66,7 +66,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     //supGain.setGainLinear(0.05f);
 
     subGain.prepare(spec);
-    subGain.setGainLinear(0.1f);
+    subGain.setGainLinear(0.05f);
 
     mainGain.prepare(spec);
     mainGain.setGainLinear(0.03f);
@@ -115,4 +115,8 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
             clearCurrentNote();
         }
     }
+}
+
+void SynthVoice::updateGain(const float sub) {
+    subGain.setGainLinear(sub);
 }

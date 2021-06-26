@@ -26,11 +26,13 @@ public:
     void updateADSR(const float attack, const float decay, const float sustain, const float release);
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
+    void updateGain(const float sub);
+
+private:
     juce::dsp::Gain<float> supGain;
     juce::dsp::Gain<float> subGain;
     juce::dsp::Gain<float> mainGain;
 
-private:
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
     juce::AudioBuffer<float> synthBuffer;
