@@ -26,6 +26,10 @@ public:
     void updateADSR(const float attack, const float decay, const float sustain, const float release);
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
+    juce::dsp::Gain<float> supGain;
+    juce::dsp::Gain<float> subGain;
+    juce::dsp::Gain<float> mainGain;
+
 private:
     juce::ADSR adsr;
     juce::ADSR::Parameters adsrParams;
@@ -33,7 +37,8 @@ private:
 
     juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
     juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
-    juce::dsp::Gain<float> gain;
+    juce::dsp::Oscillator<float> oscWaveSub{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
+    juce::dsp::Oscillator<float> oscWaveSup{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
 
     bool isPrepared{ false };
 };

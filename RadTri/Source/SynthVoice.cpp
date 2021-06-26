@@ -19,7 +19,9 @@ bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound)
 void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition) 
 {
     oscWaveL.setFrequency(juce::MidiMessage::getMidiNoteInHertz (midiNoteNumber));
-    oscWaveR.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber - 24));
+    oscWaveR.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    oscWaveSub.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber - 24));
+    oscWaveSup.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber + 12));
     adsr.noteOn();
     //RadTriAudioProcessor::fGateOn();
     //RadTriAudioProcessor::setGate(true);
@@ -57,9 +59,17 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
 
     oscWaveL.prepare(spec);
     oscWaveR.prepare(spec);
+    oscWaveSub.prepare(spec);
+    //oscWaveSup.prepare(spec);
 
-    gain.prepare(spec);
-    gain.setGainLinear(0.03f);
+    //supGain.prepare(spec);
+    //supGain.setGainLinear(0.05f);
+
+    subGain.prepare(spec);
+    subGain.setGainLinear(0.1f);
+
+    mainGain.prepare(spec);
+    mainGain.setGainLinear(0.03f);
 
     isPrepared = true;
 }
@@ -85,9 +95,16 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     synthBuffer.clear();
 
     juce::dsp::AudioBlock<float> audioBlock{ synthBuffer };
+    //oscWaveSup.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    //supGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+
+    oscWaveSub.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    subGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+
     oscWaveL.process(juce::dsp::ProcessContextReplacing<float> (audioBlock));
     oscWaveR.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
-    gain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    mainGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+
     //contextreplacing lets you replace previous process block after it's finished
 
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());

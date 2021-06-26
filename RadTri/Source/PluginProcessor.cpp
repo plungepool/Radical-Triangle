@@ -177,6 +177,9 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         //check for changes in ADSR
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
+            //Sub Oscillator Mix
+            //auto& subGain = *apvts.getRawParameterValue("SATURATION");
+
             //JUCE ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");
             auto& decay = *apvts.getRawParameterValue("DECAY");
