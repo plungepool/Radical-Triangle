@@ -177,9 +177,13 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     for (int i = 0; i < synth.getNumVoices(); ++i) {
         //check for changes in ADSR
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
+            //Sup Oscillator Mix
+            auto& supGain = *apvts.getRawParameterValue("SATURATION");
+            voice->updateSupGain(supGain);
+
             //Sub Oscillator Mix
             auto& subGain = *apvts.getRawParameterValue("SATURATION");
-            voice->updateGain(subGain);
+            voice->updateSubGain(subGain);
 
             //JUCE ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");
@@ -258,7 +262,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "A", 0.1f, 1.0f, 0.1f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "D", 0.1f, 1.0f, 0.1f));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "S", 0.1f, 1.0f, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "R", 0.1f, 3.0f, 0.4f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "R", 0.1f, 3.0f, 1.25f));
 
     return { params.begin(), params.end() };
 }

@@ -60,16 +60,16 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     oscWaveL.prepare(spec);
     oscWaveR.prepare(spec);
     oscWaveSub.prepare(spec);
-    //oscWaveSup.prepare(spec);
+    oscWaveSup.prepare(spec);
 
-    //supGain.prepare(spec);
-    //supGain.setGainLinear(0.05f);
+    supGain.prepare(spec);
+    supGain.setGainLinear(0.05f);
 
     subGain.prepare(spec);
     subGain.setGainLinear(0.05f);
 
     mainGain.prepare(spec);
-    mainGain.setGainLinear(0.03f);
+    mainGain.setGainLinear(0.05f);
 
     isPrepared = true;
 }
@@ -95,8 +95,8 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     synthBuffer.clear();
 
     juce::dsp::AudioBlock<float> audioBlock{ synthBuffer };
-    //oscWaveSup.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
-    //supGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    oscWaveSup.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
+    supGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     oscWaveSub.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     subGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
@@ -117,6 +117,10 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     }
 }
 
-void SynthVoice::updateGain(const float sub) {
-    subGain.setGainLinear(sub);
+void SynthVoice::updateSupGain(const float sup) {
+    supGain.setGainLinear(sup / 8);
+}
+
+void SynthVoice::updateSubGain(const float sub) {
+    subGain.setGainLinear(sub / 4);
 }

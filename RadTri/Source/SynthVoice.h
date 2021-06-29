@@ -26,7 +26,8 @@ public:
     void updateADSR(const float attack, const float decay, const float sustain, const float release);
     void renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int startSample, int numSamples) override;
 
-    void updateGain(const float sub);
+    void updateSupGain(const float sup);
+    void updateSubGain(const float sub);
 
 private:
     juce::dsp::Gain<float> supGain;
