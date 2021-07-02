@@ -12,7 +12,6 @@
 
 #include <JuceHeader.h>
 #include "SynthSound.h"
-
 #include <math.h>
 
 class SynthVoice : public juce::SynthesiserVoice {
@@ -29,19 +28,27 @@ public:
     void updateSupGain(const float sup);
     void updateSubGain(const float sub);
 
+    void updateSaturationAmount(const float sat);
+
 private:
-    juce::dsp::Gain<float> supGain;
-    juce::dsp::Gain<float> subGain;
-    juce::dsp::Gain<float> mainGain;
-
-    juce::ADSR adsr;
-    juce::ADSR::Parameters adsrParams;
-    juce::AudioBuffer<float> synthBuffer;
-
+    //OSCILLATORS
     juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
     juce::dsp::Oscillator<float> oscWaveR{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
     juce::dsp::Oscillator<float> oscWaveSub{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
     juce::dsp::Oscillator<float> oscWaveSup{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
+
+    //OSC GAIN STRUCTURE
+    juce::dsp::Gain<float> supGain;
+    juce::dsp::Gain<float> subGain;
+    juce::dsp::Gain<float> mainGain;
+
+    //SATUATION
+    juce::dsp::WaveShaper<float> saturation;
+
+    //ADSR
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParams;
+    juce::AudioBuffer<float> synthBuffer;
 
     bool isPrepared{ false };
 };

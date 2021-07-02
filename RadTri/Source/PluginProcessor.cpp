@@ -8,7 +8,6 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-//#include "FaustReverb.h"
 
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
@@ -192,6 +191,9 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             auto& release = *apvts.getRawParameterValue("RELEASE");
 
             voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
+
+            //Saturation
+
 
             //Osc Controls
             //lfo, etc

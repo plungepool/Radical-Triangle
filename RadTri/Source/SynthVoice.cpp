@@ -9,7 +9,6 @@
 */
 
 #include "SynthVoice.h"
-//#include "PluginProcessor.h"
 
 bool SynthVoice::canPlaySound(juce::SynthesiserSound* sound) 
 {
@@ -123,4 +122,8 @@ void SynthVoice::updateSupGain(const float sup) {
 
 void SynthVoice::updateSubGain(const float sub) {
     subGain.setGainLinear(sub / 4);
+}
+
+void SynthVoice::updateSaturationAmount(const float sat) {
+
 }
