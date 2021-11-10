@@ -104,6 +104,8 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     oscWaveR.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     mainGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
+    //saturation process goes here
+
     //contextreplacing lets you replace previous process block after it's finished
 
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
@@ -125,5 +127,6 @@ void SynthVoice::updateSubGain(const float sub) {
 }
 
 void SynthVoice::updateSaturationAmount(const float sat) {
-
+    saturation.process(sat);
+    // prob not .process as the method, just a placeholder
 }

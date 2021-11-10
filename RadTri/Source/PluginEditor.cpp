@@ -71,7 +71,7 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Widener", 10, 100, 80, 20, juce::Justification::verticallyCentred, 1);
+    //g.drawFittedText ("Widener", 10, 100, 80, 20, juce::Justification::verticallyCentred, 1);
 
     // Triangle Color/Opacity
     if (oscPhase.getValue() == 0) {
