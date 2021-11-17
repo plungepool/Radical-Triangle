@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "Faust/FaustMainProcessor.h"
 
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
@@ -108,6 +109,17 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
         }
     }
 
+    fDSP = new mydsp();
+    fDSP->init(sampleRate);
+    fUI = new MapUI();
+    fDSP->buildUserInterface(fUI);
+    inputs = new float* [2];
+    outputs = new float* [2];
+    for (int channel = 0; channel < 2; ++channel) {
+        inputs[channel] = new float[samplesPerBlock];
+        outputs[channel] = new float[samplesPerBlock];
+    }
+
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -115,6 +127,14 @@ void RadTriAudioProcessor::releaseResources()
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 
+    delete fDSP;
+    delete fUI;
+    for (int channel = 0; channel < 2; ++channel) {
+        delete[] inputs[channel];
+        delete[] outputs[channel];
+    }
+    delete[] inputs;
+    delete[] outputs;
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -156,7 +176,11 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     }
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
-        //check for changes in ADSR
+        juce::ScopedNoDenormals noDenormals;
+        auto totalNumInputChannels = getTotalNumInputChannels();
+        auto totalNumOutputChannels = getTotalNumOutputChannels();
+
+        //check for changes
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
             //Sup Oscillator Mix
             auto& supGain = *apvts.getRawParameterValue("SATURATION");
@@ -167,8 +191,23 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             voice->updateSubGain(subGain);
 
             //Saturation
-            auto& satAmt = *apvts.getRawParameterValue("SATURATION");
-            voice->updateSaturationAmount(satAmt);
+            //auto& satAmt = *apvts.getRawParameterValue("SATURATION");
+            //voice->updateSaturationAmount(satAmt);
+
+            //Faust Processing
+            //for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+            //    for (int i = 0; i < buffer.getNumSamples(); i++) {
+            //        inputs[channel][i] = *buffer.getWritePointer(channel, i);
+            //    }
+            //}
+
+            //fDSP->compute(buffer.getNumSamples(), inputs, outputs);
+
+            //for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
+            //    for (int i = 0; i < buffer.getNumSamples(); i++) {
+            //        *buffer.getWritePointer(channel, i) = outputs[channel][i];
+            //    }
+            //}
 
             //JUCE ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");

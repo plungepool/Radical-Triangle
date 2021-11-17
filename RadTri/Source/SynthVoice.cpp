@@ -22,15 +22,11 @@ void SynthVoice::startNote(int midiNoteNumber, float velocity, juce::Synthesiser
     oscWaveSub.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber - 24));
     oscWaveSup.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber + 12));
     adsr.noteOn();
-    //RadTriAudioProcessor::fGateOn();
-    //RadTriAudioProcessor::setGate(true);
 }
 
 void SynthVoice::stopNote(float velocity, bool allowTailOff) 
 {
     adsr.noteOff();
-    //RadTriAudioProcessor::fGateOff();
-    //RadTriAudioProcessor::setGate(false);
 
     if (!allowTailOff || !adsr.isActive()) {
         clearCurrentNote();
@@ -70,6 +66,8 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     mainGain.prepare(spec);
     mainGain.setGainLinear(0.05f);
 
+    saturation.prepare(satSpec);
+
     isPrepared = true;
 }
 
@@ -105,6 +103,7 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     mainGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     //saturation process goes here
+    //saturation.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
     //contextreplacing lets you replace previous process block after it's finished
 
@@ -127,6 +126,5 @@ void SynthVoice::updateSubGain(const float sub) {
 }
 
 void SynthVoice::updateSaturationAmount(const float sat) {
-    saturation.process(sat);
-    // prob not .process as the method, just a placeholder
+    //saturation.process(sat);
 }

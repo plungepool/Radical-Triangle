@@ -43,6 +43,7 @@ private:
     juce::dsp::Gain<float> mainGain;
 
     //SATUATION
+    const::juce::dsp::ProcessSpec satSpec;
     juce::dsp::WaveShaper<float> saturation;
 
     //ADSR
