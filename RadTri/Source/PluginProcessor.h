@@ -63,7 +63,7 @@ public:
 
     //==============================================================================
 
-    //Faust Setters
+    //Faust
 
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();

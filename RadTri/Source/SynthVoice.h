@@ -28,7 +28,7 @@ public:
     void updateSupGain(const float sup);
     void updateSubGain(const float sub);
 
-    void updateSaturationAmount(const float sat);
+    //void updateSaturationAmount(const float sat);
 
 private:
     //OSCILLATORS
@@ -43,8 +43,8 @@ private:
     juce::dsp::Gain<float> mainGain;
 
     //SATUATION
-    const::juce::dsp::ProcessSpec satSpec;
-    juce::dsp::WaveShaper<float> saturation;
+    //const::juce::dsp::ProcessSpec satSpec;
+    //juce::dsp::WaveShaper<float> saturation;
 
     //ADSR
     juce::ADSR adsr;

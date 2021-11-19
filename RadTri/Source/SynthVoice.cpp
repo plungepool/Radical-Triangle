@@ -66,7 +66,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     mainGain.prepare(spec);
     mainGain.setGainLinear(0.05f);
 
-    saturation.prepare(satSpec);
+    //saturation.prepare(satSpec);
 
     isPrepared = true;
 }
@@ -125,6 +125,6 @@ void SynthVoice::updateSubGain(const float sub) {
     subGain.setGainLinear(sub / 4);
 }
 
-void SynthVoice::updateSaturationAmount(const float sat) {
-    //saturation.process(sat);
-}
+//void SynthVoice::updateSaturationAmount(const float sat) {
+//    saturation.process(sat);
+//}

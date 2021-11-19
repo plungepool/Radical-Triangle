@@ -194,21 +194,24 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             //auto& satAmt = *apvts.getRawParameterValue("SATURATION");
             //voice->updateSaturationAmount(satAmt);
 
-            //Faust Processing
-            //for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-            //    for (int i = 0; i < buffer.getNumSamples(); i++) {
-            //        inputs[channel][i] = *buffer.getWritePointer(channel, i);
-            //    }
-            //}
-
-            //fDSP->compute(buffer.getNumSamples(), inputs, outputs);
-
-            //for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
-            //    for (int i = 0; i < buffer.getNumSamples(); i++) {
-            //        *buffer.getWritePointer(channel, i) = outputs[channel][i];
-            //    }
-            //}
-
+            auto& test = *apvts.getRawParameterValue("SATBYP");
+            if (false) {
+                //Faust Processing
+                //for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+                //    for (int i = 0; i < buffer.getNumSamples(); i++) {
+                //        inputs[channel][i] = *buffer.getWritePointer(channel, i);
+                //    }
+                //}
+                //
+                //fDSP->compute(buffer.getNumSamples(), inputs, outputs);
+                //
+                //for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
+                //    for (int i = 0; i < buffer.getNumSamples(); i++) {
+                //        *buffer.getWritePointer(channel, i) = outputs[channel][i];
+                //    }
+                //}
+            }
+            
             //JUCE ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");
             auto& decay = *apvts.getRawParameterValue("DECAY");
@@ -276,22 +279,3 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
 
 //=============================================================================
 //Faust
-//void RadTriAudioProcessor::setGate(bool gate)
-//{
-//    if (gate) {
-//        fUI->setParamValue("gate", 1);
-//    }
-//    else {
-//        fUI->setParamValue("gate", 0);
-//    }
-//}
-//
-//void RadTriAudioProcessor::fGateOn()
-//{
-//    fUI->setParamValue("gate", 1);
-//}
-//
-//void RadTriAudioProcessor::fGateOff()
-//{
-//    fUI->setParamValue("gate", 0);
-//}
