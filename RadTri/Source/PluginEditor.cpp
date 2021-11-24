@@ -49,7 +49,7 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
     relSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", relSlider);
     //relSlider.addListener(this);
 
-    faustBypass.setButtonText("Byp");
+    faustBypass.setButtonText("SATBYP");
     addAndMakeVisible(faustBypass);
     faustBypassAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, "SATBYP", faustBypass);
     //faustBypass.addListener(this);

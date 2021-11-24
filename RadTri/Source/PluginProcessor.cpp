@@ -176,9 +176,6 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     }
 
     for (int i = 0; i < synth.getNumVoices(); ++i) {
-        juce::ScopedNoDenormals noDenormals;
-        auto totalNumInputChannels = getTotalNumInputChannels();
-        auto totalNumOutputChannels = getTotalNumOutputChannels();
 
         //check for changes
         if (auto voice = dynamic_cast<SynthVoice*>(synth.getVoice(i))) {
@@ -193,24 +190,6 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             //Saturation
             //auto& satAmt = *apvts.getRawParameterValue("SATURATION");
             //voice->updateSaturationAmount(satAmt);
-
-            auto& test = *apvts.getRawParameterValue("SATBYP");
-            if (false) {
-                //Faust Processing
-                //for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-                //    for (int i = 0; i < buffer.getNumSamples(); i++) {
-                //        inputs[channel][i] = *buffer.getWritePointer(channel, i);
-                //    }
-                //}
-                //
-                //fDSP->compute(buffer.getNumSamples(), inputs, outputs);
-                //
-                //for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
-                //    for (int i = 0; i < buffer.getNumSamples(); i++) {
-                //        *buffer.getWritePointer(channel, i) = outputs[channel][i];
-                //    }
-                //}
-            }
             
             //JUCE ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");
@@ -220,6 +199,25 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
             voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
 
+            //auto test = apvts.getParameterAsValue("SATBYP");
+            //auto test2 = test.getValue();
+            //auto test3 = test2.equals(false);
+            //if (true) {
+            //    //Faust Processing
+            //    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+            //        for (int i = 0; i < buffer.getNumSamples(); i++) {
+            //            inputs[channel][i] = *buffer.getWritePointer(channel, i);
+            //        }
+            //    }
+
+            //    fDSP->compute(buffer.getNumSamples(), inputs, outputs);
+
+            //    for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
+            //        for (int i = 0; i < buffer.getNumSamples(); i++) {
+            //            *buffer.getWritePointer(channel, i) = outputs[channel][i];
+            //        }
+            //    }
+            //}
         }
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
