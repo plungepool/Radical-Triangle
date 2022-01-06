@@ -92,6 +92,7 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
 
     // Triangle Scaling
     scaleTri = (audioProcessor.rms + 0.08f) * 10.0f;
+    transpTri += (audioProcessor.rms * 10);
 
     // Left Channel Triangle
     triColor = juce::Colour::Colour(cRTriL, cGTriL, cBTriL, transpTri);
