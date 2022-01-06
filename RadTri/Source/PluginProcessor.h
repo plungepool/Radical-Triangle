@@ -63,17 +63,18 @@ public:
 
     //==============================================================================
 
-    //Faust
+    float rms;
 
 private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
 
     juce::Synthesiser synth;
 
-    MapUI* fUI;
-    dsp* fDSP;
-    float** inputs;
-    float** outputs;
+    //Faust
+    //MapUI* fUI;
+    //dsp* fDSP;
+    //float** inputs;
+    //float** outputs;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadTriAudioProcessor)

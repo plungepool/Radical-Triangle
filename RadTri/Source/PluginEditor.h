@@ -15,7 +15,8 @@
 /**
 */
 class RadTriAudioProcessorEditor :  public juce::AudioProcessorEditor,
-                                    public juce::Slider::Listener //add listener to sliders
+                                    public juce::Timer, //60hz refresh for animation
+                                    public juce::Slider::Listener //adds listeners to sliders
 {
 public:
     RadTriAudioProcessorEditor (RadTriAudioProcessor&);
@@ -26,6 +27,7 @@ public:
     void resized() override;
 
     void sliderValueChanged(juce::Slider* slider) override;
+    void timerCallback() override;
 
     const float pi = juce::MathConstants<float>::pi;
 
@@ -62,6 +64,7 @@ private:
     unsigned char cGTriR = 248;
     unsigned char cBTriR = 248;
     float transpTri = 1.0f;
+    float scaleTri = 1.0f;
     juce::Colour triColor = juce::Colour::Colour(cRTriL, cGTriL, cBTriL, transpTri);
 
     float tWidthL = (oscPhase.getValue()) / 2;

@@ -109,16 +109,16 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
         }
     }
 
-    fDSP = new mydsp();
-    fDSP->init(sampleRate);
-    fUI = new MapUI();
-    fDSP->buildUserInterface(fUI);
-    inputs = new float* [2];
-    outputs = new float* [2];
-    for (int channel = 0; channel < 2; ++channel) {
-        inputs[channel] = new float[samplesPerBlock];
-        outputs[channel] = new float[samplesPerBlock];
-    }
+    //fDSP = new mydsp();
+    //fDSP->init(sampleRate);
+    //fUI = new MapUI();
+    //fDSP->buildUserInterface(fUI);
+    //inputs = new float* [2];
+    //outputs = new float* [2];
+    //for (int channel = 0; channel < 2; ++channel) {
+    //    inputs[channel] = new float[samplesPerBlock];
+    //    outputs[channel] = new float[samplesPerBlock];
+    //}
 
 }
 
@@ -127,14 +127,14 @@ void RadTriAudioProcessor::releaseResources()
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 
-    delete fDSP;
-    delete fUI;
-    for (int channel = 0; channel < 2; ++channel) {
-        delete[] inputs[channel];
-        delete[] outputs[channel];
-    }
-    delete[] inputs;
-    delete[] outputs;
+    //delete fDSP;
+    //delete fUI;
+    //for (int channel = 0; channel < 2; ++channel) {
+    //    delete[] inputs[channel];
+    //    delete[] outputs[channel];
+    //}
+    //delete[] inputs;
+    //delete[] outputs;
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -221,6 +221,10 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
         }
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    for (int c = 0; c < buffer.getNumChannels(); ++c) {
+        rms = buffer.getRMSLevel(c, buffer.getSample(0, 0), buffer.getNumSamples());
+    }
 
 }
 
