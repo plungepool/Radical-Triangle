@@ -109,17 +109,6 @@ void RadTriAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock
         }
     }
 
-    //fDSP = new mydsp();
-    //fDSP->init(sampleRate);
-    //fUI = new MapUI();
-    //fDSP->buildUserInterface(fUI);
-    //inputs = new float* [2];
-    //outputs = new float* [2];
-    //for (int channel = 0; channel < 2; ++channel) {
-    //    inputs[channel] = new float[samplesPerBlock];
-    //    outputs[channel] = new float[samplesPerBlock];
-    //}
-
 }
 
 void RadTriAudioProcessor::releaseResources()
@@ -127,14 +116,6 @@ void RadTriAudioProcessor::releaseResources()
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 
-    //delete fDSP;
-    //delete fUI;
-    //for (int channel = 0; channel < 2; ++channel) {
-    //    delete[] inputs[channel];
-    //    delete[] outputs[channel];
-    //}
-    //delete[] inputs;
-    //delete[] outputs;
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -186,10 +167,6 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
             //Sub Oscillator Mix
             auto& subGain = *apvts.getRawParameterValue("SATURATION");
             voice->updateSubGain(subGain);
-
-            //Saturation
-            //auto& satAmt = *apvts.getRawParameterValue("SATURATION");
-            //voice->updateSaturationAmount(satAmt);
             
             //JUCE ADSR
             auto& attack = *apvts.getRawParameterValue("ATTACK");
@@ -199,25 +176,6 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
 
             voice->updateADSR(attack.load(), decay.load(), sustain.load(), release.load());
 
-            //auto test = apvts.getParameterAsValue("SATBYP");
-            //auto test2 = test.getValue();
-            //auto test3 = test2.equals(false);
-            //if (true) {
-            //    //Faust Processing
-            //    for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-            //        for (int i = 0; i < buffer.getNumSamples(); i++) {
-            //            inputs[channel][i] = *buffer.getWritePointer(channel, i);
-            //        }
-            //    }
-
-            //    fDSP->compute(buffer.getNumSamples(), inputs, outputs);
-
-            //    for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
-            //        for (int i = 0; i < buffer.getNumSamples(); i++) {
-            //            *buffer.getWritePointer(channel, i) = outputs[channel][i];
-            //        }
-            //    }
-            //}
         }
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
@@ -271,13 +229,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::create
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SATURATION", "Saturation", 0.0f, 1.0f, 0.0));
 
     //ADSR
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "A", 0.1f, 1.0f, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "D", 0.1f, 1.0f, 0.1f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "S", 0.1f, 1.0f, 1.0f));
-    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "R", 0.1f, 3.0f, 1.25f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "A", 0.01f, 1.0f, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "D", 0.01f, 1.0f, 0.1f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "S", 0.01f, 1.0f, 1.0f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>("RELEASE", "R", 0.01f, 3.0f, 1.25f));
 
     return { params.begin(), params.end() };
 }
 
 //=============================================================================
-//Faust
+

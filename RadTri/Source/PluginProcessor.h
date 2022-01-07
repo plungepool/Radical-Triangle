@@ -70,12 +70,6 @@ private:
 
     juce::Synthesiser synth;
 
-    //Faust
-    //MapUI* fUI;
-    //dsp* fDSP;
-    //float** inputs;
-    //float** outputs;
-
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (RadTriAudioProcessor)
 };

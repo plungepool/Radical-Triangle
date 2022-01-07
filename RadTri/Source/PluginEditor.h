@@ -31,8 +31,6 @@ public:
 
     const float pi = juce::MathConstants<float>::pi;
 
-    //bool getFaustBypState();
-
 private:
     int windowWidth = 400;
     int windowHeight = 400;
@@ -52,9 +50,6 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> susSliderAttachment;
     juce::Slider relSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> relSliderAttachment;
-
-    juce::ToggleButton faustBypass;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> faustBypassAttachment;
 
     // Graphics
     unsigned char cRTriL = 248;

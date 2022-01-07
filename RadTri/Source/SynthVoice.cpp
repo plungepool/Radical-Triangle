@@ -66,8 +66,6 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int outpu
     mainGain.prepare(spec);
     mainGain.setGainLinear(0.05f);
 
-    //saturation.prepare(satSpec);
-
     isPrepared = true;
 }
 
@@ -102,9 +100,6 @@ void SynthVoice::renderNextBlock(juce::AudioBuffer<float>& outputBuffer, int sta
     oscWaveR.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
     mainGain.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
 
-    //saturation process goes here
-    //saturation.process(juce::dsp::ProcessContextReplacing<float>(audioBlock));
-
     //contextreplacing lets you replace previous process block after it's finished
 
     adsr.applyEnvelopeToBuffer(synthBuffer, 0, synthBuffer.getNumSamples());
@@ -124,7 +119,3 @@ void SynthVoice::updateSupGain(const float sup) {
 void SynthVoice::updateSubGain(const float sub) {
     subGain.setGainLinear(sub / 4);
 }
-
-//void SynthVoice::updateSaturationAmount(const float sat) {
-//    saturation.process(sat);
-//}

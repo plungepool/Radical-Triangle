@@ -28,8 +28,6 @@ public:
     void updateSupGain(const float sup);
     void updateSubGain(const float sub);
 
-    //void updateSaturationAmount(const float sat);
-
 private:
     //OSCILLATORS
     juce::dsp::Oscillator<float> oscWaveL{ [](float x) { return 1 - 2 * abs(x / juce::MathConstants<float>::pi); }, 200 };
@@ -41,10 +39,6 @@ private:
     juce::dsp::Gain<float> supGain;
     juce::dsp::Gain<float> subGain;
     juce::dsp::Gain<float> mainGain;
-
-    //SATUATION
-    //const::juce::dsp::ProcessSpec satSpec;
-    //juce::dsp::WaveShaper<float> saturation;
 
     //ADSR
     juce::ADSR adsr;

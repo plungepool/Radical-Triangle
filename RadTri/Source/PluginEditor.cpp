@@ -49,11 +49,6 @@ RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
     relSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "RELEASE", relSlider);
     //relSlider.addListener(this);
 
-    faustBypass.setButtonText("SATBYP");
-    juce::AudioProcessorEditor::addAndMakeVisible(faustBypass);
-    faustBypassAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.apvts, "SATBYP", faustBypass);
-    //faustBypass.addListener(this);
-
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     juce::AudioProcessorEditor::setSize(windowWidth, windowHeight);
@@ -183,7 +178,6 @@ void RadTriAudioProcessorEditor::resized()
     susSlider.setBounds((windowWidth / 10) * 5, windowHeight - 75, 75, 75);
     relSlider.setBounds((windowWidth / 10) * 7, windowHeight - 75, 75, 75);
 
-    faustBypass.setBounds(windowWidth / 2, 10, 60, 20);
 }
 
 void RadTriAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
@@ -193,8 +187,3 @@ void RadTriAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
 void RadTriAudioProcessorEditor::timerCallback() {
     juce::AudioProcessorEditor::repaint(0, 0, windowWidth, windowHeight);
 }
-
-//bool RadTriAudioProcessorEditor::getFaustBypState()
-//{
-//    return faustBypass.getToggleState();
-//}
