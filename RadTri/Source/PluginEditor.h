@@ -37,8 +37,8 @@ private:
 
     const juce::ColourGradient bgGradient = juce::ColourGradient(juce::Colours::purple, 1, 300, juce::Colours::orange, 300, 1, true);
 
-    juce::Slider oscPhase;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> oscPhaseAttachment;
+    juce::Slider wideSlider;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> wideSliderAttachment;
     juce::Slider satSlider;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> satSliderAttachment;
 
@@ -62,8 +62,8 @@ private:
     float scaleTri = 1.0f;
     juce::Colour triColor = juce::Colour::Colour(cRTriL, cGTriL, cBTriL, transpTri);
 
-    float tWidthL = (oscPhase.getValue()) / 2;
-    float tWidthR = (oscPhase.getValue()) / -2;
+    float tWidthL = (wideSlider.getValue()) / -2;
+    float tWidthR = (wideSlider.getValue()) / 2;
 
     float tSatLX = (satSlider.getValue()) * -4;
     float tSatLY = (satSlider.getValue()) * -10;

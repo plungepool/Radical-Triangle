@@ -8,7 +8,6 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "Faust/FaustMainProcessor.h"
 
 //==============================================================================
 RadTriAudioProcessor::RadTriAudioProcessor()
@@ -225,7 +224,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 juce::AudioProcessorValueTreeState::ParameterLayout RadTriAudioProcessor::createParameters() {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
-    params.push_back(std::make_unique<juce::AudioParameterInt>("WIDENER", "Widener", -180.0, 180.0, 0.0));
+    params.push_back(std::make_unique<juce::AudioParameterInt>("WIDENER", "Widener", 0.0, 180.0, 0.0));
     params.push_back(std::make_unique<juce::AudioParameterFloat>("SATURATION", "Saturation", 0.0f, 1.0f, 0.0));
 
     //ADSR

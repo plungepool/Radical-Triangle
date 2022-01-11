@@ -13,11 +13,11 @@
 RadTriAudioProcessorEditor::RadTriAudioProcessorEditor (RadTriAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p), Timer()
 {
-    oscPhase.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    oscPhase.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-    juce::AudioProcessorEditor::addAndMakeVisible(oscPhase);
-    oscPhaseAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "WIDENER", oscPhase);
-    oscPhase.addListener(this);
+    wideSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    wideSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
+    juce::AudioProcessorEditor::addAndMakeVisible(wideSlider);
+    wideSliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.apvts, "WIDENER", wideSlider);
+    wideSlider.addListener(this);
 
     satSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     satSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
@@ -63,8 +63,6 @@ RadTriAudioProcessorEditor::~RadTriAudioProcessorEditor()
 
 void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    //g.setOrigin(0, 0);
-
     g.fillAll(juce::Colours::purple);
 
     g.setGradientFill(bgGradient);
@@ -75,14 +73,14 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
     //g.drawFittedText ("Widener", 10, 100, 80, 20, juce::Justification::verticallyCentred, 1);
 
     // Triangle Color/Opacity
-    if (oscPhase.getValue() == 0) {
+    if (wideSlider.getValue() == 0) {
         transpTri = 1.0f;
     }
-    else if (oscPhase.getValue() < 0) {
-        transpTri = (-1 / oscPhase.getValue()) * 40;
+    else if (wideSlider.getValue() > 85) {
+        transpTri = (1.0 / 85) * 25;
     }
     else {
-        transpTri = (1 / oscPhase.getValue()) * 40;
+        transpTri = (1.0 / wideSlider.getValue()) * 25;
     }
 
     // Triangle Scaling
@@ -93,7 +91,7 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
     triColor = juce::Colour::Colour(cRTriL, cGTriL, cBTriL, transpTri);
     g.setColour(triColor);
 
-    tWidthL = (oscPhase.getValue()) / 2;
+    tWidthL = (wideSlider.getValue()) / -2;
     tSatLX = (satSlider.getValue()) * -4;
     tSatLY = (satSlider.getValue()) * -14;
     sSatL = (satSlider.getValue()) / 3;
@@ -131,7 +129,7 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
     triColor = juce::Colour::Colour(cRTriR, cGTriR, cBTriR, transpTri);
     g.setColour(triColor);
 
-    tWidthR = (oscPhase.getValue()) / -2;
+    tWidthR = (wideSlider.getValue()) / 2;
     tSatRX = (satSlider.getValue()) * -4;
     tSatRY = (satSlider.getValue()) * -14;
     sSatR = (satSlider.getValue()) / 3;
@@ -164,13 +162,15 @@ void RadTriAudioProcessorEditor::paint (juce::Graphics& g)
     gPupilR.applyTransform(juce::AffineTransform::translation(tWidthR + tSatRX, tSatRY));
     gPupilR.applyTransform(juce::AffineTransform::scale(scaleTri, scaleTri, windowWidth / 2, windowHeight / 2));
     g.strokePath(gPupilR, juce::PathStrokeType(10.6f, juce::PathStrokeType::JointStyle::curved, juce::PathStrokeType::EndCapStyle::rounded));
+
+    
 }
 
 void RadTriAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
-    oscPhase.setBounds(0, 0, 100, 100);
+    wideSlider.setBounds(0, 0, 100, 100);
     satSlider.setBounds(windowWidth - 100, 0, 100, 100);
 
     atkSlider.setBounds((windowWidth / 10) * 1, windowHeight - 75, 75, 75);
