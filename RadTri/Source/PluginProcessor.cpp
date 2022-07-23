@@ -179,6 +179,9 @@ void RadTriAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     }
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 
+    //processing after synth oscillators and adsr goes here
+
+    //Calculate RMS of audio block
     for (int c = 0; c < buffer.getNumChannels(); ++c) {
         rms = buffer.getRMSLevel(c, buffer.getSample(0, 0), buffer.getNumSamples());
     }
