@@ -1,6 +1,6 @@
 # Radical-Triangle
 ### Wavetable Synthesizer VST
-Radical Triangle is a VST synthesizer plugin built with JUCE. Dial in massive leads and basses through thickening saturation, heafty suboscillators, snappy non-linear ADSR envelope, and widener. **Currently in development.**
+Radical Triangle is a VST synthesizer plugin built with JUCE. Dial in massive leads and basses through thickening saturation, heafty suboscillators, snappy non-linear ADSR envelope, and widener. **Unfinished.**
 
 
 
